@@ -41,6 +41,10 @@ class Profile(AbstractBaseUser):
     name = models.TextField(max_length=10)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    car_model = models.CharField(
+    max_length=100,
+    default=""
+    )
  
     objects = MyUserManager()
 

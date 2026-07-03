@@ -19,6 +19,17 @@ from rest_framework.permissions import IsAuthenticated
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 User = get_user_model()
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def updateCar(request):
+    
+    try:
+        user = request.user
+        user.car_model = request.data.get("car_model")
+        user.save()
+        return Response({"message": "Car updated successfully"})
+    except User.DoesNotExist:
+        return Response({"message": "User not found"}, status=404)
 @api_view(["GET"])
 def verify(request ,uid,token):
     try:
@@ -80,7 +91,7 @@ def resetPassword(request):
    
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = default_token_generator.make_token(user)
-    link = f"http://172.20.10.8:8080/api/reset/{uid}/{token}/"
+    link = f"http://192.168.1.138:8080/api/reset/{uid}/{token}/"
     send_mail(
             "Reset your password",
             link,
@@ -98,11 +109,12 @@ def register(request):
     email = request.data.get("email")
     password = request.data.get("password")
     name = request.data.get("name")
-    user = UserSerializer(data=request.data)
-    if user.is_valid():
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
-        link = f"http://172.20.10.8:8080/api/verify/{uid}/{token}/"
+        link = f"http://192.168.1.138:8080/api/verify/{uid}/{token}/"
         send_mail(
             "Verify your account",
             link,
@@ -124,6 +136,7 @@ def Profile(request):
         "id": user.id,
         "name": user.name,
         "email": user.email,
+        "car_model":user.car_model
     })
     
         
