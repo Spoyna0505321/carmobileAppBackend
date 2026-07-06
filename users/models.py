@@ -39,6 +39,7 @@ class Profile(AbstractBaseUser):
         unique=True,
     )
     name = models.TextField(max_length=10)
+    image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     car_model = models.CharField(

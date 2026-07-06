@@ -30,6 +30,27 @@ def updateCar(request):
         return Response({"message": "Car updated successfully"})
     except User.DoesNotExist:
         return Response({"message": "User not found"}, status=404)
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def updateProfileImage(request):
+    user = request.user
+
+    image = request.FILES.get("image")
+
+    if not image:
+        return Response(
+            {"message": "No image uploaded"},
+            status=400
+        )
+
+    user.image = image
+    user.save()
+
+    return Response({
+        "message": "Profile image updated successfully",
+        "image": request.build_absolute_uri(user.image.url),
+    })
 @api_view(["GET"])
 def verify(request ,uid,token):
     try:
@@ -109,7 +130,10 @@ def register(request):
     email = request.data.get("email")
     password = request.data.get("password")
     name = request.data.get("name")
+    image = request.FILES.get("image")
     serializer = UserSerializer(data=request.data)
+    print(request.data)
+    print(request.FILES)
     if serializer.is_valid():
         user = serializer.save()
         uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -136,7 +160,8 @@ def Profile(request):
         "id": user.id,
         "name": user.name,
         "email": user.email,
-        "car_model":user.car_model
+        "car_model":user.car_model,
+        "image": request.build_absolute_uri(user.image.url) if user.image else None,
     })
     
         

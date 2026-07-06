@@ -1,6 +1,9 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from .views import logout, register, verify,resetPassword,reset, Profile,updateCar,MyTokenObtainPairView
+from .views import logout, updateProfileImage,register, verify,resetPassword,reset, Profile,updateCar,MyTokenObtainPairView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
 
 urlpatterns = [
     path("reset_password/", resetPassword),
@@ -12,4 +15,5 @@ urlpatterns = [
     path("refresh/", TokenRefreshView.as_view()),
     path("profile/",Profile),
     path("car/",updateCar),
+    path("updateImage/",updateProfileImage),
 ]

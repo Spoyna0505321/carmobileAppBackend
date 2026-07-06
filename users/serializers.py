@@ -23,13 +23,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["id","email", "name","password"]
+        fields = "__all__"
         extra_kwargs = {
         "password": {"write_only": True}
         }
 
     def create(self, validated_data):
-        user = Profile.objects.create(email=validated_data["email"],name=validated_data["name"],password=validated_data["name"])
+        user = Profile.objects.create(email=validated_data["email"],name=validated_data["name"],image= validated_data["image"])
         user.set_password(validated_data["password"])
         user.save()
         return user
