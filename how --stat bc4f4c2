@@ -1,0 +1,8 @@
+[33mcommit bc4f4c2d63ca1a952c36481183f621acccb3e544[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Spoyna0505321 <111008552+Spoyna0505321@users.noreply.github.com>
+Date:   Mon Jul 13 11:59:51 2026 +0300
+
+    settings commit
+
+ config/settings.py | 9 [32m+++++++++[m
+ 1 file changed, 9 insertions(+)
