@@ -112,7 +112,7 @@ def resetPassword(request):
    
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = default_token_generator.make_token(user)
-    link = f"http://192.168.1.138:8080/api/reset/{uid}/{token}/"
+    link = f"https://carmobile-app-backend.vercel.app/api/reset/{uid}/{token}/"
     send_mail(
             "Reset your password",
             link,
@@ -138,7 +138,7 @@ def register(request):
         user = serializer.save()
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
-        link = f"http://192.168.1.138:8080/api/verify/{uid}/{token}/"
+        link = f"https://carmobile-app-backend.vercel.app/api/verify/{uid}/{token}/"
         send_mail(
             "Verify your account",
             link,
