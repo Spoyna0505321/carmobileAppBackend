@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+
+import dj_database_url
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -67,8 +75,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "haksimtimefor4@gmail.com"
-EMAIL_HOST_PASSWORD = "jcigmtilbmfnwnuo"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -91,14 +99,11 @@ ALLOWED_HOSTS = ["*"]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_db',             # pgAdmin/psql'de oluşturduğunuz veritabanının adı
-        'USER': 'postgres',              # Kullanıcı adınız
-        'PASSWORD': 'bruh7376',          # Belirlediğiniz şifre
-        'HOST': '127.0.0.1',             # Localhost IP adresi
-        'PORT': '5432',                  # Varsayılan PostgreSQL portu
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 AUTH_USER_MODEL = "users.Profile"
 
